@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <assembly fullname="CS20200_project">
+    <resource name="FSharpSignatureData.CS20200_project" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedData.CS20200_project" action="remove"></resource>
+    <resource name="FSharpSignatureDataB.CS20200_project" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedDataB.CS20200_project" action="remove"></resource>
+    <resource name="FSharpOptimizationData.CS20200_project" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedData.CS20200_project" action="remove"></resource>
+    <resource name="FSharpOptimizationDataB.CS20200_project" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedDataB.CS20200_project" action="remove"></resource>
+    <resource name="FSharpOptimizationInfo.CS20200_project" action="remove"></resource>
+    <resource name="FSharpSignatureInfo.CS20200_project" action="remove"></resource>
+  </assembly>
+</linker>

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "NLlOeDWAdFI=",
+  "success": true,
+  "projectFilePath": "/home/jeongdongin0416/practice/cs20200/CS20200_project/CS20200_project.fsproj",
+  "expectedPackageFiles": [
+    "/home/jeongdongin0416/.nuget/packages/fsharp.core/10.0.107/fsharp.core.10.0.107.nupkg.sha512"
+  ],
+  "logs": []
+}
