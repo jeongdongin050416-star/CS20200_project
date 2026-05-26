@@ -22,6 +22,7 @@ type GameConfig = {
     SkyHeight: int
     MinBuildingHeight: int
     MaxBuildingHeight: int
+    BuildingWidth: int
     MinSpeed: float
     MaxSpeed: float
     MinAngle: float
@@ -49,13 +50,14 @@ module Game =
         SkyHeight = 24
         MinBuildingHeight = 3
         MaxBuildingHeight = 10
-        MinSpeed = 1.0
+        BuildingWidth = 2
+        MinSpeed = 10.0
         MaxSpeed = 40.0
         MinAngle = 0.0
         MaxAngle = 90.0
         Gravity = 9.8
-        TimeStep = 0.10
-        FrameDelayMs = 45
+        TimeStep = 0.01
+        FrameDelayMs = 20
         Animate = true
         Quiet = false
         Seed = None
@@ -77,8 +79,8 @@ module Game =
 
         let h1 = random.Next(config.MinBuildingHeight, config.MaxBuildingHeight + 1)
         let h2 = random.Next(config.MinBuildingHeight, config.MaxBuildingHeight + 1)
-        let x1 = 10
-        let x2 = config.Width - 11
+        let x1 = 5
+        let x2 = config.Width - 6
         {
             Building1Height = h1
             Building2Height = h2
@@ -98,8 +100,8 @@ module Game =
                 let chars = Array.create config.Width ' '
                 for x in 0 .. config.Width - 1 do
                     if y = 0 then chars[x] <- '='
-                    elif x >= world.User1.X - 2 && x <= world.User1.X + 2 && y <= world.Building1Height then chars[x] <- '#'
-                    elif x >= world.User2.X - 2 && x <= world.User2.X + 2 && y <= world.Building2Height then chars[x] <- '#'
+                    elif x >= world.User1.X - config.BuildingWidth && x <= world.User1.X + config.BuildingWidth && y < world.Building1Height then chars[x] <- '#'
+                    elif x >= world.User2.X - config.BuildingWidth && x <= world.User2.X + config.BuildingWidth && y < world.Building2Height then chars[x] <- '#'
 
                 if world.User1.Y = y then chars[world.User1.X] <- world.User1.Symbol
                 if world.User2.Y = y then chars[world.User2.X] <- world.User2.Symbol
@@ -164,15 +166,18 @@ module Game =
             elif bx = shooterTank.X && by = shooterTank.Y then
                 // Requirement: a user cannot hit their own tank. Ignore the launcher's own cell.
                 ()
+            elif by < targetTank.Y && (((targetTank.X - bx) <= config.BuildingWidth) && ((targetTank.X - bx) >= -1*config.BuildingWidth) ) then
+                result <- Some (Miss "The cannonball hit the building.")
+            elif by < shooterTank.Y && (((shooterTank.X - bx) <= config.BuildingWidth) && ((shooterTank.X - bx) >= -1*config.BuildingWidth)) then
+                result <- Some (Miss "The cannonball hit the building.")
             elif by <= 0 then
                 result <- Some (Miss "The cannonball fell to the ground.")
             elif bx < 0 || bx >= config.Width then
                 result <- Some (Miss "The cannonball left the battlefield.")
-            elif shooter = User1 && bx > targetTank.X then
-                result <- Some (Miss "The cannonball passed behind User2.")
-            elif shooter = User2 && bx < targetTank.X then
-                result <- Some (Miss "The cannonball passed behind User1.")
-
+            // elif shooter = User1 && bx > targetTank.X then
+            //     result <- Some (Miss "The cannonball passed behind User2.")
+            // elif shooter = User2 && bx < targetTank.X then
+            //     result <- Some (Miss "The cannonball passed behind User1.")
             t <- t + config.TimeStep
 
         result.Value
@@ -189,5 +194,5 @@ module Game =
             printfn "User1 wins!"
         | Miss reason ->
             printfn "%s Miss. Attack opportunity passes to %s." reason (otherPlayer currentPlayer |> playerName)
-            if config.Animate then Thread.Sleep(900)
+            if config.Animate then Thread.Sleep(1500)
             gameLoop config world (otherPlayer currentPlayer)
