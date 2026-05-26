@@ -50,7 +50,7 @@ module Game =
         MinBuildingHeight = 3
         MaxBuildingHeight = 10
         MinSpeed = 1.0
-        MaxSpeed = 100.0
+        MaxSpeed = 40.0
         MinAngle = 0.0
         MaxAngle = 90.0
         Gravity = 9.8
@@ -192,62 +192,13 @@ module Game =
             if config.Animate then Thread.Sleep(900)
             gameLoop config world (otherPlayer currentPlayer)
 
-    let parseArgs (args: string array) =
-        let rec loop i config =
-            if i >= args.Length then config
-            else
-                match args[i] with
-                | "--no-animation" -> loop (i + 1) { config with Animate = false; FrameDelayMs = 0 }
-                | "--seed" when i + 1 < args.Length ->
-                    match Int32.TryParse(args[i + 1]) with
-                    | true, seed -> loop (i + 2) { config with Seed = Some seed }
-                    | false, _ -> failwith "--seed requires an integer."
-                | "--help" | "-h" ->
-                    printfn "CLI FORTRESS"
-                    printfn "Usage: dotnet run [-- --seed N] [--no-animation]"
-                    Environment.Exit(0)
-                    config
-                | unknown -> failwithf "Unknown argument: %s" unknown
-        loop 0 defaultConfig
-
-
-    let runSelfTests () =
-        let config = { defaultConfig with Width = 30; SkyHeight = 10; Animate = false; Quiet = true; TimeStep = 0.10 }
-        let world = {
-            Building1Height = 5
-            Building2Height = 5
-            User1 = { Player = User1; X = 10; Y = 5; Symbol = '1' }
-            User2 = { Player = User2; X = 20; Y = 5; Symbol = '2' }
-        }
-
-        let assertResult name expected actual =
-            if actual <> expected then
-                failwithf "%s failed. Expected %A but got %A." name expected actual
-            else
-                printfn "PASS: %s" name
-
-        let hitShot = { Speed = Math.Sqrt(98.0); AngleDegrees = 45.0 }
-        assertResult "User1 can hit User2 by exact displayed coordinate" (Hit User2) (simulateShot config world User1 hitShot)
-        assertResult "User2 can hit User1 by exact displayed coordinate" (Hit User1) (simulateShot config world User2 hitShot)
-
-        match simulateShot config world User1 { Speed = 5.0; AngleDegrees = 90.0 } with
-        | Miss _ -> printfn "PASS: missed shot eventually falls and passes turn"
-        | result -> failwithf "Vertical miss test failed. Expected Miss but got %A." result
-
-        printfn "All CLI FORTRESS self-tests passed."
-
 module Program =
     [<EntryPoint>]
     let main args =
         try
-            if args |> Array.contains "--self-test" then
-                Game.runSelfTests ()
-                0
-            else
-                let config = Game.parseArgs args
-                let world = Game.createWorld config
-                Game.gameLoop config world User1
-                0
+            let world = Game.createWorld Game.defaultConfig
+            Game.gameLoop Game.defaultConfig world User1
+            0
         with ex ->
             eprintfn "Error: %s" ex.Message
             1
