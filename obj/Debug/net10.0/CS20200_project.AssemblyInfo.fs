@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("CS20200_project")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba8cbd575173d87edd72fd56e87535ca00887de8")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a397b7615c4043c291ee139672811a272d533a43")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("CS20200_project")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("CS20200_project")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]

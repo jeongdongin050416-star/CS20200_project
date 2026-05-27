@@ -174,10 +174,6 @@ module Game =
                 result <- Some (Miss "The cannonball fell to the ground.")
             elif bx < 0 || bx >= config.Width then
                 result <- Some (Miss "The cannonball left the battlefield.")
-            // elif shooter = User1 && bx > targetTank.X then
-            //     result <- Some (Miss "The cannonball passed behind User2.")
-            // elif shooter = User2 && bx < targetTank.X then
-            //     result <- Some (Miss "The cannonball passed behind User1.")
             t <- t + config.TimeStep
 
         result.Value
