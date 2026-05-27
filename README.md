@@ -232,7 +232,9 @@ An LLM was used during development to help create an initial version of the comm
 
 Manual changes were necessary after the initial LLM-generated version. In particular, unnecessary test code was removed, the code was reorganized by module/file, the speed range was adjusted, and projectile simulation parameters were changed.
 
-The main part the LLM did not handle correctly was projectile collision behavior. With the initial timing and miss logic, the cannonball could appear to pass through buildings or disappear too suddenly after passing a tank. This was corrected by reducing the simulation time step, adjusting frame delay, and changing the miss conditions so that a shot misses when it hits a building, falls to the ground, or leaves the battlefield.
+The main part the LLM did not handle correctly was projectile behavior. In the initial version, the simulation time step was too large, so the cannonball could visually pass through buildings or tanks between frames. To fix this, I reduced the simulation time step and adjusted the animation frame delay.
+
+The miss condition also needed to be changed. In the initial version, the cannonball could disappear simply because it passed behind a tank, and building collision was not handled as a proper miss condition. This felt unnatural during gameplay. I changed the miss logic so that a shot is treated as a miss when it hits a building, falls to the ground, or leaves the battlefield.
 
 
 ---
