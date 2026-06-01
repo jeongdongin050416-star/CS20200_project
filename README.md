@@ -11,12 +11,19 @@ Two players, **User1** and **User2**, stand on separate buildings. On each turn,
 ### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- A terminal that can run `dotnet` commands
+- [Git](https://git-scm.com/downloads)
+- A terminal that can run `git` and `dotnet` commands
 
 Check your .NET version with:
 
 ```bash
 dotnet --version
+```
+
+Check your Git installation with:
+
+```bash
+git --version
 ```
 
 The version should be `10.x.x`.
